@@ -9,10 +9,9 @@
 //=====================================================================
 //=====================================================================
 
-exports.Product =
-	function Product( Args )
+exports.Puppet =
+	function Puppet( Config )
 	{
-		let product = 1;
-		Args.forEach( arg => product *= arg );
-		return product;
+		let puppet = require( './Puppet/Puppet.js' ).Puppet( Config );
+		return puppet;
 	};

@@ -6,9 +6,9 @@
 
 <hr>
 
-> A template for nodejs library development
+> A NodeJS library to interface with Puppeteer and parsing functions.
 
-> View docs for project setup and deployment
+> Web automation, Scraping, etc.
 
 <hr>
 

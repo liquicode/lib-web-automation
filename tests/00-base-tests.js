@@ -43,50 +43,5 @@ describe( `00) Base Tests`,
 			} );
 
 
-		//---------------------------------------------------------------------
-		describe( `Library Tests`,
-			async function ()
-			{
-
-				//---------------------------------------------------------------------
-				it( `returns 1 when called with no arguments`,
-					async function ()
-					{
-						let value = LIB.Product( [] );
-						LIB_ASSERT.strictEqual( value, 1 );
-						return;
-					} );
-
-				//---------------------------------------------------------------------
-				it( `returns the argument when called with a single argument`,
-					async function ()
-					{
-						let value = LIB.Product( [ 42 ] );
-						LIB_ASSERT.strictEqual( value, 42 );
-						return;
-					} );
-
-				//---------------------------------------------------------------------
-				it( `handles two arguments`,
-					async function ()
-					{
-						let value = LIB.Product( [ 6, 7 ] );
-						LIB_ASSERT.strictEqual( value, 42 );
-						return;
-					} );
-
-				//---------------------------------------------------------------------
-				it( `handles multiple arguments`,
-					async function ()
-					{
-						let value = LIB.Product( [ 3, 4, 5 ] );
-						LIB_ASSERT.strictEqual( value, ( 3 * 4 * 5 ) );
-						return;
-					} );
-
-				return;
-			} );
-
-
 		return;
 	} );
