@@ -4,7 +4,7 @@
 //=====================================================================
 //=====================================================================
 //
-//		scraper-page-detail
+//		puppeteer-page-detail.js
 //
 //=====================================================================
 //=====================================================================
@@ -37,16 +37,16 @@ exports.get_page_image = get_page_image;
 
 
 //---------------------------------------------------------------------
-async function get_page( App )
+async function get_page( Puppet )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	return {
 		get_page: true,
-		url: await App.PuppeteerPage.url(),
-		content: await App.PuppeteerPage.content(),
-		image: await App.PuppeteerPage.screenshot( { fullPage: true, encoding: 'base64' } ),
+		url: await Puppet.PuppeteerPage.url(),
+		content: await Puppet.PuppeteerPage.content(),
+		image: await Puppet.PuppeteerPage.screenshot( { fullPage: true, encoding: 'base64' } ),
 	};
 }
 
@@ -61,14 +61,14 @@ async function get_page( App )
 
 
 //---------------------------------------------------------------------
-async function get_page_url( App )
+async function get_page_url( Puppet )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	return {
 		get_page_url: true,
-		url: await App.PuppeteerPage.url(),
+		url: await Puppet.PuppeteerPage.url(),
 	};
 }
 
@@ -83,14 +83,14 @@ async function get_page_url( App )
 
 
 //---------------------------------------------------------------------
-async function get_page_content( App )
+async function get_page_content( Puppet )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	return {
 		get_page_content: true,
-		content: await App.PuppeteerPage.content(),
+		content: await Puppet.PuppeteerPage.content(),
 	};
 }
 
@@ -105,14 +105,14 @@ async function get_page_content( App )
 
 
 //---------------------------------------------------------------------
-async function get_page_image( App )
+async function get_page_image( Puppet )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	return {
 		get_page_image: true,
-		image: await App.PuppeteerPage.screenshot( { fullPage: true, encoding: 'base64' } ),
+		image: await Puppet.PuppeteerPage.screenshot( { fullPage: true, encoding: 'base64' } ),
 	};
 }
 

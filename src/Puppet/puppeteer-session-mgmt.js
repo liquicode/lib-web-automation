@@ -4,20 +4,13 @@
 //=====================================================================
 //=====================================================================
 //
-//		scraper-session-mgmt
+//		puppeteer-session-mgmt.js
 //
 //=====================================================================
 //=====================================================================
 
 
-//---------------------------------------------------------------------
-function lib_missing_error( LibraryName )
-{
-	console.error( `LIB-WEB-AUTOMATION: An npm library required for this service provider [${LibraryName}] was not found.` );
-	console.error( `LIB-WEB-AUTOMATION: The npm library [${LibraryName}] was not found.` );
-	console.error( `LIB-WEB-AUTOMATION: To install [${LibraryName}] please use: npm install --save ${LibraryName}` );
-	return;
-}
+const LIB_UITILITY = require( '../lib-utility.js' );
 
 
 //=====================================================================
@@ -73,8 +66,15 @@ async function start_session( Puppet, Config )
 {
 	if ( Puppet.PuppeteerBrowser ) { return { error: 'Session already exists!' }; }
 
-	if ( typeof Config === 'undefined' ) { Config = default_session_config(); }
-	if ( !Config ) { Config = default_session_config(); }
+	let DEFAULT_CONFIG = default_session_config();
+	if ( !Config || ( typeof Config === 'undefined' ) )
+	{
+		Config = DEFAULT_CONFIG;
+	}
+	else
+	{
+		Config = LIB_UITILITY.merge_objects( DEFAULT_CONFIG, Config );
+	}
 
 	// Initialize Puppeteer.
 	let LIB_PUPPETEER = null;
@@ -87,7 +87,7 @@ async function start_session( Puppet, Config )
 		}
 		catch ( error ) 
 		{
-			lib_missing_error( 'puppeteer' );
+			LIB_UITILITY.lib_missing_error( 'puppeteer' );
 			throw error;
 		}
 
@@ -98,7 +98,7 @@ async function start_session( Puppet, Config )
 		}
 		catch ( error ) 
 		{
-			lib_missing_error( 'puppeteer-extra' );
+			LIB_UITILITY.lib_missing_error( 'puppeteer-extra' );
 			throw error;
 		}
 
@@ -112,7 +112,7 @@ async function start_session( Puppet, Config )
 			}
 			catch ( error ) 
 			{
-				lib_missing_error( 'puppeteer-extra-plugin-stealth' );
+				LIB_UITILITY.lib_missing_error( 'puppeteer-extra-plugin-stealth' );
 				throw error;
 			}
 		}
@@ -132,7 +132,7 @@ async function start_session( Puppet, Config )
 			}
 			catch ( error ) 
 			{
-				lib_missing_error( 'puppeteer-extra-plugin-recaptcha' );
+				LIB_UITILITY.lib_missing_error( 'puppeteer-extra-plugin-recaptcha' );
 				throw error;
 			}
 		}

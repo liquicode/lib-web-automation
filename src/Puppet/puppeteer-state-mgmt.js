@@ -4,7 +4,7 @@
 //=====================================================================
 //=====================================================================
 //
-//		scraper-state-mgmt
+//		puppeteer-state-mgmt.js
 //
 //=====================================================================
 //=====================================================================
@@ -38,14 +38,14 @@ exports.set_cookies = set_cookies;
 
 
 //---------------------------------------------------------------------
-async function navigate_to( App, Url )
+async function navigate_to( Puppet, Url )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	await Promise.all( [
-		App.PuppeteerPage.goto( Url ),
-		App.PuppeteerPage.waitForNavigation( { waitUntil: 'networkidle0' } ),
+		Puppet.PuppeteerPage.goto( Url ),
+		Puppet.PuppeteerPage.waitForNavigation( { waitUntil: 'networkidle0' } ),
 		// App.PuppeteerPage.waitForNavigation( { waitUntil: 'networkidle2' } ),
 	] );
 
@@ -63,20 +63,26 @@ async function navigate_to( App, Url )
 
 
 //---------------------------------------------------------------------
-async function get_pages( App )
+/**
+ * Returns an array of open pages in the browser.
+ * For each open page, the page number and url are returned.
+ */
+async function get_pages( Puppet )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
-	let browser_pages = await App.PuppeteerBrowser.pages();
+	let browser_pages = await Puppet.PuppeteerBrowser.pages();
 	let pages = [];
 	for ( let page_index = 0; page_index < browser_pages.length; page_index++ )
 	{
 		let page = browser_pages[ page_index ];
-		pages.push( {
+		let page_entry =
+		{
 			number: page_index + 1,
 			url: await page.url(),
-		} );
+		};
+		pages.push( page_entry );
 	}
 
 	return {
@@ -96,13 +102,18 @@ async function get_pages( App )
 
 
 //---------------------------------------------------------------------
-async function switch_to_page( App, PageOptions )
+/**
+ * Switch to one of the pages open in the browser.
+ * You can specify which to page to switch to by supplying the
+ * page number, url, or a selector found on the page.
+ */
+async function switch_to_page( Puppet, PageOptions = { page_number: 0, url: '', url_starts_with: '', has_selector: '' } )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	// Find the page.
-	let browser_pages = await App.PuppeteerBrowser.pages();
+	let browser_pages = await Puppet.PuppeteerBrowser.pages();
 	let found_index = -1;
 	for ( let page_index = 0; page_index < browser_pages.length; page_index++ )
 	{
@@ -159,7 +170,7 @@ async function switch_to_page( App, PageOptions )
 	}
 
 	// Switch the page.
-	App.PuppeteerPage = browser_pages[ found_index ];
+	Puppet.PuppeteerPage = browser_pages[ found_index ];
 	return { switch_to_page: true, page_number: found_index + 1, };
 }
 

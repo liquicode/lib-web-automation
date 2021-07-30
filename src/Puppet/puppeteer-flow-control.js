@@ -4,7 +4,7 @@
 //=====================================================================
 //=====================================================================
 //
-//		scraper-flow-control
+//		puppeteer-flow-control.js
 //
 //=====================================================================
 //=====================================================================
@@ -38,12 +38,12 @@ exports.wait_while_exists = wait_while_exists;
 
 
 //---------------------------------------------------------------------
-async function has_selector( App, Selector )
+async function has_selector( Puppet, Selector )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
-	let result = await App.libPuppeteer.find_element( App, Selector );
+	let result = await Puppet.find_element( Puppet, Selector );
 	if ( result.error ) { return result; }
 	let element = result.element;
 

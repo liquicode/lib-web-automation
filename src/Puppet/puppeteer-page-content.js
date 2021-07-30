@@ -4,7 +4,7 @@
 //=====================================================================
 //=====================================================================
 //
-//		scraper-page-content
+//		puppeteer-page-content.js
 //
 //=====================================================================
 //=====================================================================
@@ -38,26 +38,26 @@ exports.get_image = get_image;
 
 
 //---------------------------------------------------------------------
-async function find_element( App, Selector )
+async function find_element( Puppet, Selector )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
 	let element = null;
 	if ( Selector.startsWith( 'xpath:' ) )
 	{
 		Selector = Selector.substr( 6 ).trim();
-		element = await App.PuppeteerPage.$x( Selector );
+		element = await Puppet.PuppeteerPage.$x( Selector );
 	}
 	else if ( Selector.startsWith( 'css:' ) )
 	{
 		Selector = Selector.substr( 4 ).trim();
-		element = await App.PuppeteerPage.$( Selector );
+		element = await Puppet.PuppeteerPage.$( Selector );
 	}
 	else
 	{
 		Selector = Selector.trim();
-		element = await App.PuppeteerPage.$( Selector );
+		element = await Puppet.PuppeteerPage.$( Selector );
 	}
 	if ( Array.isArray( element ) ) { element = element[ 0 ]; }
 
@@ -78,17 +78,17 @@ async function find_element( App, Selector )
 
 
 //---------------------------------------------------------------------
-async function modelize( App, Selector )
+async function modelize( Puppet, Selector )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
-	let result = await App.libPuppeteer.find_element( App, Selector );
+	let result = await Puppet.find_element( Puppet, Selector );
 	if ( result.error ) { return result; }
 	if ( !result.element ) { throw new Error( `Selector [${Selector}] does not exist.` ); }
 	let element = result.element;
 
-	let model = await App.PuppeteerPage.evaluate( ( eval_element ) =>
+	let model = await Puppet.PuppeteerPage.evaluate( ( eval_element ) =>
 	{
 		function get_model_from_element( element )
 		{
@@ -148,12 +148,12 @@ async function modelize( App, Selector )
 
 
 //---------------------------------------------------------------------
-async function get_text( App, Selector )
+async function get_text( Puppet, Selector )
 {
-	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
-	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
+	if ( !Puppet.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
+	if ( !Puppet.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
 
-	let result = await App.libPuppeteer.find_element( App, Selector );
+	let result = await Puppet.find_element( Puppet, Selector );
 	if ( result.error ) { return result; }
 	if ( !result.element ) { throw new Error( `Selector [${Selector}] does not exist.` ); }
 	let element = result.element;
@@ -179,7 +179,7 @@ async function get_text( App, Selector )
 
 
 //---------------------------------------------------------------------
-async function get_table( App, Selector, Options = {} )
+async function get_table( App, Selector )
 {
 	if ( !App.PuppeteerBrowser ) { return { error: 'Browser does not exist.' }; }
 	if ( !App.PuppeteerPage ) { return { error: 'Page does not exist.' }; }
