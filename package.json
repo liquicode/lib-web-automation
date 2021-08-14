@@ -46,9 +46,9 @@
 	"devDependencies": {
 		"@vivaxy/here": "",
 		"mocha": "",
-		"webpack": "",
+		"webpack": "^5.50.0",
 		"webpack-cli": "",
-		"webpack-node-externals": ""
+		"webpack-node-externals": "^3.0.0"
 	},
 	"scripts": {
 		"run-tests": "mocha -u bdd tests/*.js --timeout 0 --slow 10 --colors",

@@ -46,6 +46,7 @@ Dependencies:
 
 */
 
+const LIB_OS = require( 'os' );
 const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
 const LIB_CHILD_PROCESS = require( 'child_process' );
@@ -115,7 +116,7 @@ function print_command_output( Command, Output )
 
 
 //---------------------------------------------------------------------
-async function execute_command( Command )
+async function shell_execute( Command )
 {
 	return new Promise(
 		( resolve, reject ) =>
@@ -139,6 +140,14 @@ async function execute_command( Command )
 			return;
 		}
 	);
+}
+
+
+//---------------------------------------------------------------------
+async function execute_command( Command )
+{
+	let os_arch = LIB_OS.arch();
+	return;
 }
 
 
@@ -183,13 +192,14 @@ function replace_text( Text, Search, Replace )
 	// - Do webpack: `bash build/webpack/010-webpack.sh`
 	log_blank_line();
 	log_heading( 'Preflight: Do webpack' );
-	await execute_command( `bash build/webpack/010-webpack.sh` );
+	// await shell_execute( `bash build/webpack/010-webpack.sh` );
+	await execute_command( `build/webpack/010-webpack` );
 
 	// - Runs tests and store output in docs/external/testing-output.md: `npx mocha -u bdd tests/*.js --timeout 0 --slow 10`
 	log_blank_line();
 	log_heading( 'Preflight: Runs tests and store output in docs/external/testing-output.md' );
 	{
-		result = await execute_command( `npx mocha -u bdd tests/*.js --timeout 0 --slow 10` );
+		result = await shell_execute( `npx mocha -u bdd tests/*.js --timeout 0 --slow 10` );
 		path = LIB_PATH.join( process.cwd(), 'docs', 'external', 'testing-output.md' );
 		LIB_FS.writeFileSync( path,
 			"# Testing Output\n\n\n"
@@ -232,12 +242,12 @@ function replace_text( Text, Search, Replace )
 	// - Do final staging: `git add .`
 	log_blank_line();
 	log_heading( 'Do final staging before version tag' );
-	await execute_command( `git add .` );
+	await shell_execute( `git add .` );
 
 	// - Get project status
 	log_blank_line();
 	log_heading( 'Get project status' );
-	result = await execute_command( `git status` );
+	result = await shell_execute( `git status` );
 	let working_tree_clean = result.stdout.includes( 'working tree clean' );
 
 	// - Do final commit: `git commit -m "Finalization for vX.Y.Z"`
@@ -245,30 +255,30 @@ function replace_text( Text, Search, Replace )
 	{
 		log_blank_line();
 		log_heading( 'Do final commit before version tag' );
-		await execute_command( `git commit -m "Finalization for v${PACKAGE.version}"` );
+		await shell_execute( `git commit -m "Finalization for v${PACKAGE.version}"` );
 	}
 
 	// - Do final push: `git push origin master`
 	log_blank_line();
 	log_heading( 'Do final push before version tag' );
-	await execute_command( `git push origin master` );
+	await shell_execute( `git push origin master` );
 
 	// - Create git version tag: `git tag -a vX.Y.Z -m "Version vX.Y.Z"`
 	log_blank_line();
 	log_heading( 'Create git version tag' );
-	await execute_command( `git tag -a v${PACKAGE.version} -m "Version ${PACKAGE.version}"` );
+	await shell_execute( `git tag -a v${PACKAGE.version} -m "Version ${PACKAGE.version}"` );
 
 	// - Push git version tag: `git push origin vX.Y.Z`
 	log_blank_line();
 	log_heading( 'Push git version tag' );
-	await execute_command( `git push origin v${PACKAGE.version}` );
+	await shell_execute( `git push origin v${PACKAGE.version}` );
 
 	if ( CONFIG.HasNpmRegistry )
 	{
 		// - Create new npm version: `npm publish . --access public`
 		log_blank_line();
 		log_heading( 'Create new npm version' );
-		await execute_command( `npm publish . --access public` );
+		await shell_execute( `npm publish . --access public` );
 	}
 
 	if ( CONFIG.HasS3Docs )
@@ -276,7 +286,7 @@ function replace_text( Text, Search, Replace )
 		// - Update S3 docs: `bash build/s3/810-s3-sync-docs.sh`
 		log_blank_line();
 		log_heading( 'Update S3 docs' );
-		await execute_command( `bash build/s3/810-s3-sync-docs.sh` );
+		await shell_execute( `bash build/s3/810-s3-sync-docs.sh` );
 	}
 
 
@@ -343,17 +353,17 @@ function replace_text( Text, Search, Replace )
 	// - Do initial staging: `git add .`
 	log_blank_line();
 	log_heading( 'Do initial staging for new version' );
-	await execute_command( `git add .` );
+	await shell_execute( `git add .` );
 
 	// - Do initial commit: `git commit -m "Initialization for vX.Y.Z"`
 	log_blank_line();
 	log_heading( 'Do initial commit for new version' );
-	await execute_command( `git commit -m "Initialization for v${PACKAGE.version}"` );
+	await shell_execute( `git commit -m "Initialization for v${PACKAGE.version}"` );
 
 	// - Do final push: `git push origin master`
 	log_blank_line();
 	log_heading( 'Do final push for new version' );
-	await execute_command( `git push origin master` );
+	await shell_execute( `git push origin master` );
 
 
 	log_blank_line();
