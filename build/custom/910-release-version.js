@@ -271,7 +271,7 @@ function replace_text( Text, Search, Replace )
 	// - Do final push: `git push origin master`
 	log_blank_line();
 	log_heading( 'Do final push before version tag' );
-	await shell_execute( `git push origin master` );
+	await shell_execute( `git push origin ${CONFIG.GitBranchName}` );
 
 	// - Create git version tag: `git tag -a vX.Y.Z -m "Version vX.Y.Z"`
 	log_blank_line();
