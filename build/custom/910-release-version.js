@@ -147,6 +147,15 @@ async function shell_execute( Command )
 async function execute_command( Command )
 {
 	let os_arch = LIB_OS.arch();
+	let os_platform = LIB_OS.platform();
+	if ( os_platform === 'win32' )
+	{
+		Command = `${Command}.bat`;
+	}
+	else if ( os_platform === 'linux' )
+	{
+		Command = `bash ${Command}.sh`;
+	}
 	return;
 }
 
@@ -193,7 +202,8 @@ function replace_text( Text, Search, Replace )
 	log_blank_line();
 	log_heading( 'Preflight: Do webpack' );
 	// await shell_execute( `bash build/webpack/010-webpack.sh` );
-	await execute_command( `build/webpack/010-webpack` );
+	// await execute_command( `build/webpack/010-webpack` );
+	await shell_execute( 'npx webpack-cli --config build/__secrets/webpack.config.js' );
 
 	// - Runs tests and store output in docs/external/testing-output.md: `npx mocha -u bdd tests/*.js --timeout 0 --slow 10`
 	log_blank_line();
