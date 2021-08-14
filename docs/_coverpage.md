@@ -2,7 +2,7 @@
 
 ![logo](media/lib-web-automation-banner-large.png)
 
-# lib-web-automation <small>(v0.0.2)</small>
+# lib-web-automation <small>(v0.0.3)</small>
 
 <hr>
 
