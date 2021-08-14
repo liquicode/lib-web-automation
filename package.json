@@ -1,6 +1,6 @@
 {
 	"name": "@liquicode/lib-web-automation",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A NodeJS library to interface with Puppeteer and parsing functions.",
 	"homepage": "http://lib-web-automation.liquicode.com",
 	"license": "MIT",

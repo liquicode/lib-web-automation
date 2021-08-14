@@ -373,7 +373,8 @@ function replace_text( Text, Search, Replace )
 	// - Do final push: `git push origin master`
 	log_blank_line();
 	log_heading( 'Do final push for new version' );
-	await shell_execute( `git push origin master` );
+	// await shell_execute( `git push origin master` );
+	await shell_execute( `git push origin ${CONFIG.GitBranchName}` );
 
 
 	log_blank_line();
