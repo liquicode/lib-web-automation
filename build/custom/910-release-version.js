@@ -273,15 +273,18 @@ function replace_text( Text, Search, Replace )
 	log_heading( 'Do final push before version tag' );
 	await shell_execute( `git push origin ${CONFIG.GitBranchName}` );
 
-	// - Create git version tag: `git tag -a vX.Y.Z -m "Version vX.Y.Z"`
-	log_blank_line();
-	log_heading( 'Create git version tag' );
-	await shell_execute( `git tag -a v${PACKAGE.version} -m "Version ${PACKAGE.version}"` );
+	if ( CONFIG.GitCreateVersionTag )
+	{
+		// - Create git version tag: `git tag -a vX.Y.Z -m "Version vX.Y.Z"`
+		log_blank_line();
+		log_heading( 'Create git version tag' );
+		await shell_execute( `git tag -a v${PACKAGE.version} -m "Version ${PACKAGE.version}"` );
 
-	// - Push git version tag: `git push origin vX.Y.Z`
-	log_blank_line();
-	log_heading( 'Push git version tag' );
-	await shell_execute( `git push origin v${PACKAGE.version}` );
+		// - Push git version tag: `git push origin vX.Y.Z`
+		log_blank_line();
+		log_heading( 'Push git version tag' );
+		await shell_execute( `git push origin v${PACKAGE.version}` );
+	}
 
 	if ( CONFIG.HasNpmRegistry )
 	{
