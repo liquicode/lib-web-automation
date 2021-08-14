@@ -291,12 +291,13 @@ function replace_text( Text, Search, Replace )
 		await shell_execute( `npm publish . --access public` );
 	}
 
-	if ( CONFIG.HasS3Docs )
+	if ( CONFIG.S3DocsBucketName )
 	{
 		// - Update S3 docs: `bash build/s3/810-s3-sync-docs.sh`
 		log_blank_line();
 		log_heading( 'Update S3 docs' );
-		await shell_execute( `bash build/s3/810-s3-sync-docs.sh` );
+		// await shell_execute( `bash build/s3/810-s3-sync-docs.sh` );
+		await shell_execute( `aws s3 sync docs s3://${CONFIG.S3DocsBucketName} --profile ${CONFIG.AwsProfileName}` );
 	}
 
 
