@@ -11,18 +11,18 @@
       √ LIB_ASSERT.notStrictEqual( 0, 1 )
 
   10) Session Management
-    √ Startup and Shutdown, default config (366ms)
-    √ Startup and Shutdown, headless (238ms)
+    √ Startup and Shutdown, default config (347ms)
+    √ Startup and Shutdown, headless (239ms)
 
   20) State Management
     Navigates to HTTP
-      √ Navigates to Google (HTTP) (1294ms)
-      √ Navigates to Wikipedia (HTTP) (1095ms)
+      √ Navigates to Google (HTTP) (1395ms)
+      √ Navigates to Wikipedia (HTTP) (1112ms)
     Navigates to HTTPS
-      √ Navigates to Google (HTTPS) (1220ms)
-      √ Navigates to Wikipedia (HTTPS) (1076ms)
+      √ Navigates to Google (HTTPS) (1259ms)
+      √ Navigates to Wikipedia (HTTPS) (1078ms)
     Multiple Pages
-      √ Navigates and gets page info (1371ms)
+      √ Navigates and gets page info (1218ms)
 
 
   10 passing (8s)

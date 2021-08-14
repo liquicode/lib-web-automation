@@ -41,7 +41,8 @@
 	"dependencies": {
 		"puppeteer": "",
 		"puppeteer-extra": "",
-		"puppeteer-extra-plugin-stealth": ""
+		"puppeteer-extra-plugin-stealth": "",
+		"puppeteer-extra-plugin-recaptcha": ""
 	},
 	"devDependencies": {
 		"@vivaxy/here": "",

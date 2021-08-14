@@ -98,7 +98,7 @@ function print_command_output( Command, Output )
 		if ( text )
 		{
 			log_muted( `| stdout:` );
-			log_error( text );
+			log_muted( text );
 		}
 	}
 	if ( Output.stderr )
@@ -107,7 +107,7 @@ function print_command_output( Command, Output )
 		if ( text )
 		{
 			log_muted( `| stderr:` );
-			log_error( text );
+			log_muted( text );
 		}
 	}
 	log_muted( '+-----------------------------------------' );
