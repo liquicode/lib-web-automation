@@ -23,6 +23,7 @@
 		"dist/*",
 		"docs/*",
 		"src/*",
+		"samples/*",
 		"tests/*"
 	],
 	"ignore": [
@@ -36,7 +37,11 @@
 		"javascript",
 		"js",
 		"nodejs",
-		"node"
+		"node",
+		"web",
+		"automation",
+		"scraping",
+		"puppeteer"
 	],
 	"dependencies": {
 		"puppeteer": "",
