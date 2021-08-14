@@ -284,14 +284,15 @@ function replace_text( Text, Search, Replace )
 		log_blank_line();
 		log_heading( 'Push git version tag' );
 		await shell_execute( `git push origin v${PACKAGE.version}` );
-	}
 
-	if ( CONFIG.HasNpmRegistry )
-	{
-		// - Create new npm version: `npm publish . --access public`
-		log_blank_line();
-		log_heading( 'Create new npm version' );
-		await shell_execute( `npm publish . --access public` );
+		if ( CONFIG.NpmCreateVersionRelease )
+		{
+			// - Create new npm version: `npm publish . --access public`
+			log_blank_line();
+			log_heading( 'Create new npm version' );
+			await shell_execute( `npm publish . --access public` );
+		}
+
 	}
 
 	if ( CONFIG.S3DocsBucketName )
